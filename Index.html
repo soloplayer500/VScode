@@ -1,1 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Kinder Internet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-900: #101119;
+            --bg-800: #1A1A2E;
+            --bg-700: #23234B;
+            --surface: #2E2C52;
+            --primary: #6C4EF6;
+            --accent-pink: #E057FF;
+            --accent-cyan: #33E1F7;
+            --accent-amber: #F5B970;
+            --text: #E6E8FF;
+            --text-muted: #A0A3BC;
 
+            --border-radius-xl: 1rem;
+            --border-radius-2xl: 1.5rem;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Poppins', sans-serif;
+            background-color: var(--bg-900);
+            background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(108, 78, 246, 0.3), transparent),
+                              linear-gradient(to bottom, var(--bg-900), var(--bg-800));
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        img, svg {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- Header / Nav --- */
+        .main-header {
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(26, 26, 46, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(46, 44, 82, 0.5);
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text);
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .main-nav a {
+            color: var(--text-muted);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--text);
+        }
+
+        /* --- Buttons --- */
+        .cta-button {
+            font-family: inherit;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .cta-button.primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 20px rgba(108, 78, 246, 0.4);
+        }
+
+        .cta-button.ghost {
+            background-color: transparent;
+            color: var(--text);
+            border: 1px solid var(--surface);
+        }
+
+        .cta-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 25px rgba(108, 78, 246, 0.6);
+        }
+
+        .cta-button.ghost:hover {
+             background-color: var(--surface);
+             box-shadow: none;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            display: flex;
+            align-items: center;
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+            gap: 3rem;
+        }
+
+        .hero-text {
+            flex: 1.2;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 50ch;
+        }
+
+        .hero-mascot {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mascot-card {
+            position: relative;
+            padding: 1rem;
+            background-color: rgba(46, 44, 82, 0.5);
+            border-radius: var(--border-radius-2xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .mascot-svg {
+            width: 250px;
+            height: 250px;
+        }
+
+        .speech-bubble {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--border-radius-xl);
+            font-weight: 600;
+            position: relative;
+            bottom: 20px;
+            animation: breathe 3s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Triangle for speech bubble */
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-top-color: var(--primary);
+            border-bottom: 0;
+        }
+
+        @keyframes breathe {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.03);
+            }
+        }
+
+        /* --- Features Section --- */
+        .features {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+            text-align: center;
+        }
+
+        .features h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--text);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-xl);
+            padding: 2rem;
+            text-align: left;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(108, 78, 246, 0.25);
+        }
+
+        .card-thumbnail {
+            height: 150px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            background-image: linear-gradient(45deg, rgba(108, 78, 246, 0.2), rgba(224, 87, 255, 0.2));
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- Wholesome Banner --- */
+        .wholesome-banner {
+            background-color: var(--surface);
+            padding: 3rem 0;
+            margin-top: 5rem;
+        }
+
+        .banner-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .heart-icon {
+            width: 32px;
+            height: 32px;
+            color: var(--accent-pink);
+        }
+
+        .banner-content p {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            padding: 3rem 0;
+            background-color: var(--bg-900);
+            margin-top: 5rem;
+            border-top: 1px solid var(--surface);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-icons a {
+            color: var(--text-muted);
+            font-weight: 600;
+            transition: color 0.3s ease;
+            border: 1px solid transparent;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .social-icons a:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* --- I Love You Rain Animation --- */
+        #rain-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .falling-text {
+            position: absolute;
+            top: -50px; /* Start off-screen */
+            left: var(--x-start);
+            font-size: clamp(0.8rem, 1.5vw, 1.1rem);
+            color: var(--text);
+            user-select: none;
+            will-change: transform, opacity;
+            animation: fall var(--duration) var(--delay) linear forwards;
+        }
+
+        .falling-text.pink { color: var(--accent-pink); }
+        .falling-text.cyan { color: var(--accent-cyan); }
+
+        @keyframes fall {
+            from {
+                transform: translateY(0vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            to {
+                transform: translateY(105vh) rotate(var(--rotation));
+                opacity: 0;
+            }
+        }
+
+        /* Reduced motion fallback: static cluster */
+        .static-rain-cluster {
+            display: none; /* Hidden by default */
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .falling-text {
+                animation: none !important;
+                display: none !important;
+            }
+            .speech-bubble {
+                animation: none;
+            }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1199px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+            .content-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                line-height: 1.5;
+            }
+            .main-nav ul {
+                display: none; /* Hiding for demo; real app needs hamburger menu */
+            }
+            .main-nav {
+                justify-content: center;
+                position: relative;
+            }
+            .main-nav .cta-button {
+                position: absolute;
+                right: 1.5rem;
+            }
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 4rem;
+                padding-bottom: 4rem;
+            }
+            .hero-text {
+                order: 2;
+            }
+            .hero-mascot {
+                order: 1;
+                margin-bottom: 3rem;
+            }
+            .hero-text h1 {
+                font-size: 2.25rem;
+            }
+            .hero-text p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .features h2 {
+                font-size: 2rem;
+            }
+            .banner-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            .footer-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            .footer-content p {
+                order: 2;
+            }
+            .social-icons {
+                order: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav container">
+            <div class="logo">Kindred</div>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="cta-button ghost">Open Chat</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="hero container">
+            <div class="hero-text">
+                <h1>A kinder internet, one message at a time.</h1>
+                <p>Even AI can be gentle. Here’s your daily reminder: you’re loved.</p>
+                <button class="cta-button primary">Send Love</button>
+            </div>
+            <div class="hero-mascot">
+                <div class="mascot-card">
+                    <svg class="mascot-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Illustration of a cute kitten's head.">
+                        <defs>
+                            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <path d="M22,60 C22,60 20,28 50,28 C80,28 78,60 78,60" fill="var(--surface)" stroke="var(--accent-cyan)" stroke-width="0.5" />
+                        <path d="M49,28 L40,15 L45,28" fill="var(--surface)" stroke="var(--accent-cyan)" stroke-width="0.5" />
+                        <path d="M51,28 L60,15 L55,28" fill="var(--surface)" stroke="var(--accent-cyan)" stroke-width="0.5" />
+                        <circle cx="40" cy="45" r="3" fill="var(--text)" filter="url(#glow)"/>
+                        <circle cx="60" cy="45" r="3" fill="var(--text)" filter="url(#glow)"/>
+                        <path d="M45,55 Q50,60 55,55" stroke="var(--text)" stroke-width="1" fill="none"/>
+                    </svg>
+                    <div class="speech-bubble">I love you</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features container">
+            <h2>Discover What's Possible</h2>
+            <div class="content-grid">
+                <div class="feature-card">
+                    <div class="card-thumbnail" aria-hidden="true"></div>
+                    <h3>Design & Prototype</h3>
+                    <p>Create beautiful, high-fidelity designs and interactive prototypes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="card-thumbnail" aria-hidden="true"></div>
+                    <h3>Create 3D Sites</h3>
+                    <p>Build immersive 3D websites that captivate your audience.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="card-thumbnail" aria-hidden="true"></div>
+                    <h3>Collaborate Live</h3>
+                    <p>Work with your team in real-time, on the same canvas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="card-thumbnail" aria-hidden="true"></div>
+                    <h3>Generate Assets</h3>
+                    <p>Instantly create icons, illustrations, and other assets with AI.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="card-thumbnail" aria-hidden="true"></div>
+                    <h3>Animate Anything</h3>
+                    <p>Bring your ideas to life with a powerful animation timeline.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="card-thumbnail" aria-hidden="true"></div>
+                    <h3>Deploy with Ease</h3>
+                    <p>Go from design to live site with a single, simple click.</p>
+                </div>
+            </div>
+        </section>
+        <section class="wholesome-banner">
+            <div class="container banner-content">
+                <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <p>You are loved. Always.</p>
+                <button class="cta-button ghost">Learn More</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <p>&copy; 2024 Kindred. All rights reserved.</p>
+            <div class="social-icons">
+                <a href="#" aria-label="Twitter">TW</a>
+                <a href="#" aria-label="Instagram">IG</a>
+                <a href="#" aria-label="Discord">DI</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const rainContainer = document.getElementById('rain-container'); // This will be added dynamically by JS, or it should be in HTML. Let's add it in HTML for simplicity.
+
+        // Let's modify the plan slightly. Add the div in HTML directly.
+        // It's already prepended in my JS plan. Let's stick to that.
+        // No, creating it in JS is cleaner.
+
+        const container = document.createElement('div');
+        container.id = 'rain-container';
+        document.body.prepend(container);
+
+        const phrases = ["I love you", "♥", "I love you", "I love you"];
+        const colors = ['default', 'pink', 'cyan'];
+
+        if (motionQuery.matches) {
+            // Create static cluster as fallback
+            const staticContainer = document.createElement('div');
+            staticContainer.className = 'static-rain-cluster';
+            staticContainer.style.display = 'block';
+            staticContainer.style.position = 'absolute';
+            staticContainer.style.top = '20%';
+            staticContainer.style.left = '75%';
+            staticContainer.style.width = '200px';
+            staticContainer.style.height = '200px';
+            staticContainer.style.transform = 'rotate(-15deg)';
+
+
+            for (let i = 0; i < 15; i++) {
+                const element = document.createElement('span');
+                element.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+                const color = ['var(--text)', 'var(--accent-pink)', 'var(--accent-cyan)'][Math.floor(Math.random() * 3)];
+
+                element.style.position = 'absolute';
+                element.style.fontSize = '0.9rem';
+                element.style.color = color;
+                element.style.opacity = Math.random() * 0.5 + 0.3;
+                element.style.transform = `translate(${(Math.random() - 0.5) * 150}px, ${(Math.random() - 0.5) * 150}px) rotate(${(Math.random() - 0.5) * 40}deg)`;
+                staticContainer.appendChild(element);
+            }
+            container.appendChild(staticContainer);
+        } else {
+            // Start animation
+            const maxElements = 40;
+            let isVisible = document.visibilityState === 'visible';
+
+            const createRaindrop = () => {
+                if (!isVisible || container.childElementCount >= maxElements) return;
+
+                const element = document.createElement('span');
+                element.classList.add('falling-text');
+                element.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                if (color !== 'default') element.classList.add(color);
+
+                element.style.setProperty('--x-start', `${Math.random() * 100}vw`);
+                element.style.setProperty('--duration', `${Math.random() * 4 + 4}s`);
+                element.style.setProperty('--delay', `${Math.random() * 5}s`);
+                element.style.setProperty('--rotation', `${(Math.random() - 0.5) * 60}deg`);
+                element.style.transform = `scale(${Math.random() * 0.3 + 0.8})`;
+
+                container.appendChild(element);
+
+                element.addEventListener('animationend', () => {
+                    element.remove();
+                    // Create a new one to replace it, maintaining the density
+                    setTimeout(createRaindrop, Math.random() * 200);
+                }, { once: true });
+            };
+
+            for (let i = 0; i < maxElements; i++) {
+                // Stagger the initial creation
+                setTimeout(createRaindrop, i * 100);
+            }
+
+            document.addEventListener('visibilitychange', () => {
+                isVisible = document.visibilityState === 'visible';
+                if (isVisible && container.childElementCount < maxElements) {
+                    for (let i = container.childElementCount; i < maxElements; i++) {
+                        createRaindrop();
+                    }
+                }
+            });
+        }
+    });
+    </script>
+</body>
+</html>
